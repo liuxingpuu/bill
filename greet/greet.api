@@ -1,0 +1,174 @@
+type Request {
+	Name string `path:"name,options=you|me"`
+}
+
+type Response {
+	Message string `json:"message"`
+}
+
+service greet-api {
+	@handler GreetHandler
+	get /from/:name(Request) returns (Response)
+}
+
+type (
+	RegisterReq {
+		Mobile     string `json:"mobile"`
+		VerifyCode string `json:"verify_code"`
+	}
+
+	RegisterReply {
+		Code    int    `json:"code"`
+		Message string `json:"message"`
+	}
+)
+
+service greet-api {
+	@handler register
+	post /register (RegisterReq) returns (RegisterReply)
+}
+
+type (
+	LoginReq {
+		Mobile   string `json:"mobile"`
+		Password string `json:"password"`
+	}
+
+	LoginReply {
+		Code        int    `json:"code"`
+		Message     string `json:"message"`
+		AccessToken string `json:"accessToken"`
+	}
+)
+
+service greet-api {
+	@handler login
+	post /login (LoginReq) returns (LoginReply)
+}
+
+type (
+	CreateAssetsReq {
+		Type           string  `json:"type"`
+		Assets_balance float64 `json:"assets_balance"`
+		Account_name   string  `json:"account_name"`
+	}
+
+	CreateAssetsReply {
+		Type           string  `json:"type"`
+		Assets_balance float64 `json:"assets_balance"`
+		Account_name   string  `json:"account_name"`
+	}
+)
+
+@server(
+	jwt: Auth
+)
+service greet-api {
+	@handler create_assets_account
+	post /create_assets_account/do (CreateAssetsReq) returns (CreateAssetsReply)
+}
+
+type (
+	UpdateAssetsReq {
+		Id             int64   `path:"id"`
+		Type           string  `json:"type"`
+		Assets_balance float64 `json:"assets_balance"`
+		Account_name   string  `json:"account_name"`
+	}
+
+	UpdateAssetsReply {
+		Type           string  `json:"type"`
+		Assets_balance float64 `json:"assets_balance"`
+		Account_name   string  `json:"account_name"`
+	}
+)
+
+@server(
+	jwt: Auth
+)
+service greet-api {
+	@handler update_assets_account
+	put /update_assets_account/do/:id (UpdateAssetsReq) returns (UpdateAssetsReply)
+}
+
+type (
+	DeleteAssetsReq {
+		Id int64 `path:"id"`
+	}
+
+	DeleteAssetsReply {
+		Message string `json:"message"`
+	}
+)
+
+@server(
+	jwt: Auth
+)
+service greet-api {
+	@handler delete_assets_account
+	delete /delete_assets_account/do/:id (DeleteAssetsReq) returns (DeleteAssetsReply)
+}
+
+type (
+	GetAssetsReq {
+		Id int64 `path:"id"`
+	}
+
+	GetAssetsReqReply {
+		Type           string  `json:"type"`
+		Assets_balance float64 `json:"assets_balance"`
+		Account_name   string  `json:"account_name"`
+	}
+)
+
+@server(
+	jwt: Auth
+)
+service greet-api {
+	@handler get_assets_account
+	get /get_assets_account/do/:id (GetAssetsReq) returns (GetAssetsReqReply)
+}
+
+type (
+	Assets {
+		Type           string  `json:"type"`
+		Assets_balance float64 `json:"assets_balance"`
+		Account_name   string  `json:"account_name"`
+	}
+	ListAssetsReply {
+		Count  int32    `json:"count"`
+		Assets *[]Assets `json:"assets"`
+	}
+)
+
+@server(
+	jwt: Auth
+)
+service greet-api {
+	@handler assets_account
+	get /assets_account returns (ListAssetsReply)
+}
+
+@server(
+	jwt: Auth
+)
+service greet-api {
+	@handler create_debts_account
+	post /create_debt_account (CreateDebtReq) returns (CreateDebtReply)
+}
+
+type (
+	CreateDebtReq {
+		Type         string  `json:"type"`
+		Debt_amount  float64 `json:"debt_amount"`
+		Account_name string  `json:"account_name"`
+		Debt_total   float64 `json:"debt_total"`
+	}
+
+	CreateDebtReply {
+		Type         string  `json:"type"`
+		Debt_amount  float64 `json:"debt_amount"`
+		Account_name string  `json:"account_name"`
+		Debt_total   float64 `json:"debt_total"`
+	}
+)

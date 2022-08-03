@@ -1,0 +1,12 @@
+Name: greet-api
+Host: 0.0.0.0
+Port: 8888
+Mysql:
+  DataSource: root:mysql@tcp(10.131.134.5:3306)/qiao?charset=utf8&parseTime=True
+CacheRedis:
+  - Host: 10.131.134.5:6379
+    Pass: "123456"
+    Type: node
+Auth:
+  AccessSecret: 3F2504E0-4F89-11D3-9A0C-0305E82C3301
+  AccessExpire: 30000
